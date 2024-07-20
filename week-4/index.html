@@ -1,0 +1,50 @@
+<!-- Concepts of DOM and Debouncing -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input oninput="debouncePopulateDiv()" id="firstNumber" type="text" placeholder="first number"></input><br><br>
+    <input oninput="debouncePopulateDiv()" id="secondNumber" type="text" placeholder="second number"></input><br><br>
+    <!--  <button onclick="populateDiv()">Calculate sum</button><br></br> -->
+    <div id="finalSum"></div>
+</body>
+<script>
+    let timeout;
+    function debouncePopulateDiv(){
+        //delay the call to populateDiv until i have not been called for 300ms
+        //and I've been called atleast once
+        //clearing clock if number is clicked before 300ms and then starting a new clock
+        clearTimeout(timeout);
+        timeout = setTimeout(function(){
+            populateDiv()
+        }, 300);
+        
+
+    }
+    // function populateDiv(){
+    //     let x = document.getElementById("firstNumber").value;
+    //     let y = document.getElementById("secondNumber").value;
+    //    // document.getElementById("finalSum").innerHTML = parseInt(x)+parseInt(y);
+    //     fetch("https://sum-server.100xdevs.com/sum?a=" + x + "&b=" + y)
+    //     .then(function(response){
+    //         response.text()
+    //         .then(function(ans){
+    //             document.getElementById("finalSum").innerHTML = ans;
+    //         });
+    //     });
+    // } 
+    //cleaner way -->
+    
+    async function populateDiv(){
+        let x = document.getElementById("firstNumber").value;
+        let y = document.getElementById("secondNumber").value;
+        const response = await fetch("https://sum-server.100xdevs.com/sum?a=" + x + "&b=" + y);
+        const ans = await response.text();
+        document.getElementById("finalSum").innerHTML = ans;
+    }
+</script>
+</html>
